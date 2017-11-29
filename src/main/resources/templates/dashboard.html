@@ -6,13 +6,54 @@
     </head>
     <body>
         <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-        
+
         <a th:href="@{/admin}">Go to admin-only task</a>
-       
+
         <div style="margin-top: 20px;">
-	        <form th:action="@{/logout}" method="post">
-	            <input type="submit" value="Sign Out"/>
-	        </form>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
         </div>
+
+        <script>
+            //got this from S/O
+            function post(path, params, method) {
+                method = method || "post"; // Set method to post by default if not specified.
+
+                // The rest of this code assumes you are not using a library.
+                // It can be made less wordy if you use one.
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+
+                for(var key in params) {
+                    if(params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function after_30() {
+                //30 seconds passed, show a warning with a button and stuff
+                var response = confirm("WARNING: You will be logged out in 30 seconds due to"+
+                    "inactivity. Stay logged in?");
+                if(response === true) {
+                    //User wants to stay logged in, send a POST to /refresh
+                    post('/refresh');
+                    setTimeout(after_30, 30000);
+                }
+            }
+
+            // After 30 seconds, show the warning
+            setTimeout(after_30, 30000);
+        </script>
     </body>
 </html>
