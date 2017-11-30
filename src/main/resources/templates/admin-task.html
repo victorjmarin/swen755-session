@@ -2,10 +2,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <title>Admin task</title>
+        <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
     </head>
     <body>
         <h1>Admin task</h1>
 
         <p>Only admins can perform this task.</p>
+        
+        <script th:inline="javascript">
+            function after_30() {
+                var still_log_em_out = true;
+                setTimeout(function(){
+                    if(still_log_em_out){
+                        location.reload();
+                    }
+                }, 30000);
+                //30 seconds passed, show a warning with a button and stuff
+                var response = confirm("WARNING: You will be logged out in 30 seconds due to "+
+                    "inactivity. Stay logged in?");
+                if(response === true) {
+                    //User wants to stay logged in, send a POST to /refresh
+                    /*<![CDATA[*/
+                    var token = /*[[${_csrf.token}]]*/ 'token';
+                    /*]]>*/
+                    var csrf_data = {_csrf: token};
+                    $.post( "/refresh", csrf_data, function(data) {
+  						console.log(data);
+  						setTimeout(after_30, 30000);
+                    		still_log_em_out = false;
+					});
+                }
+            }
+
+            // After 30 seconds, show the warning
+            setTimeout(after_30, 30000);
+        </script>
     </body>
 </html>
