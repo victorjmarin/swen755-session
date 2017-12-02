@@ -5,9 +5,17 @@
         <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
     </head>
     <body>
-        <h1>Admin task</h1>
+        <h1>Log out all users</h1>
 
-        <p>Only admins can perform this task.</p>
+        <div th:if="${logged_out}">
+            All users logged out successfully.
+        </div>
+
+        <p>By clicking the button below you will log out all users except administrators.</p>
+        
+        <form th:action="@{/logout-users}" method="post">
+            <div><input type="submit" value="Log out all users"/></div>
+        </form>
         
         <script th:inline="javascript">
             function after_30() {

@@ -1,9 +1,16 @@
 package session;
 
 import java.security.Principal;
+import java.util.Collection;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,12 +23,37 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
+  @Autowired
+  private SessionRegistry sessionRegistry;
+
   @Override
   public void addViewControllers(final ViewControllerRegistry registry) {
     registry.addViewController("/dashboard").setViewName("dashboard");
-    registry.addViewController("/admin").setViewName("admin-task");
     registry.addViewController("/denied").setViewName("403");
     registry.addViewController("/expired").setViewName("expired");
+  }
+
+  @RequestMapping(value = "/logout-users", method = RequestMethod.GET)
+  public String logoutUsersGet() {
+    return "logout-users";
+  }
+
+  @RequestMapping(value = "/logout-users", method = RequestMethod.POST)
+  public ModelAndView logoutUsersPost() {
+    final List<Object> principals = sessionRegistry.getAllPrincipals();
+    for (final Object p : principals) {
+      final User user = (User) p;
+      // Do not log out admins
+      if (userHasAuthority("ROLE_ADMIN", user))
+        continue;
+      final List<SessionInformation> sessions = sessionRegistry.getAllSessions(p, false);
+      for (final SessionInformation si : sessions) {
+        si.expireNow();
+      }
+    }
+    final ModelAndView result = new ModelAndView("logout-users");
+    result.addObject("logged_out", true);
+    return result;
   }
 
   @ResponseBody
@@ -60,6 +92,16 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     final ModelAndView result = new ModelAndView("login");
     result.addObject("expired", true);
     return result;
+  }
+
+  public static boolean userHasAuthority(final String authority, final User user) {
+    final Collection<GrantedAuthority> authorities = user.getAuthorities();
+    for (final GrantedAuthority grantedAuthority : authorities) {
+      if (authority.equals(grantedAuthority.getAuthority())) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

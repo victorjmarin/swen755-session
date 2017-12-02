@@ -8,7 +8,7 @@
     <body>
         <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 
-        <a th:href="@{/admin}">Go to admin-only task</a>
+        <a th:href="@{/logout-users}">Go to admin-only task</a>
 
         <div style="margin-top: 20px;">
             <form th:action="@{/logout}" method="post">
