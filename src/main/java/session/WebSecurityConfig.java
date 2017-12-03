@@ -18,6 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     .authorizeRequests()
         .antMatchers("/").permitAll()
         .antMatchers("/expired").permitAll()
+        .antMatchers("/css/*").permitAll()
+        .antMatchers("/js/*").permitAll()
         .antMatchers("/logout-users").hasRole("ADMIN")
         .anyRequest().authenticated()
         .and()

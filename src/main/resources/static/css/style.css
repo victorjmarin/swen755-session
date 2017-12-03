@@ -1,0 +1,48 @@
+.side-bar{
+	display: inline-flex;
+    float: left;
+    height: 93%;
+    width: 35%;
+    background: url(../images/lock.gif);
+    position: fixed;
+    top: 20px;
+    left: 0;
+}
+
+.main-content{
+    display: block;
+    /*padding: 5%;*/
+    margin: 5%;
+    position: relative;
+    top: 72px;
+    left: 42%;
+    float: left;
+    font-size: 16px;
+}
+
+.logout-message{
+    padding: 4%;
+    margin: 8px 0;
+    background: #ffeff7;
+    border-radius: 10px;
+    border: 1px solid #b71280;
+}
+
+form{
+    padding: 5%;
+    font-variant-caps: petite-caps;
+    color: #5d5b5b;
+    margin: 5px 0;
+}
+
+input{
+    font-size: 18px;
+    border-style: groove;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+input[type=submit]{
+    margin: 10px 0;
+    background: #ddd;
+}
