@@ -3,17 +3,23 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <title>Dashboard</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
         <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
     </head>
     <body>
-        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-
-        <a th:href="@{/logout-users}">Go to admin-only task</a>
-
-        <div style="margin-top: 20px;">
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out"/>
-            </form>
+    		<div class="side-bar dashboard">
+    			Enjoy Secure Sessions!
+    		</div>
+    		<div class="main-content">
+	        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+	
+	        <a th:href="@{/logout-users}">Go to admin-only task</a>
+	
+	        <div style="margin-top: 20px;">
+	            <form th:action="@{/logout}" method="post">
+	                <input type="submit" value="Sign Out"/>
+	            </form>
+	        </div>
         </div>
 
         <script th:inline="javascript">
