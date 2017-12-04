@@ -1,17 +1,31 @@
 .side-bar{
-	display: inline-flex;
+    display: inline-flex;
     float: left;
-    height: 93%;
-    width: 35%;
-    background: url(../images/lock.gif);
-    position: fixed;
-    top: 20px;
+    height: 100%;
+    width: 30%;
+    background: #654988;
+    position: absolute;
+    top: 0;
     left: 0;
+    font-family: fantasy;
+    font-size: xx-large;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 196px;
+    padding-left: 70px;
+}
+
+.dashboard{
+    background: url(../bg1.gif) !important;
+}
+
+.logout-users{
+    background: url(../bg2.gif) !important;
 }
 
 .main-content{
     display: block;
-    /*padding: 5%;*/
     margin: 5%;
     position: relative;
     top: 72px;
@@ -34,7 +48,9 @@ form{
     color: #5d5b5b;
     margin: 5px 0;
 }
-
+.logout-form{
+    padding: 0 !important;
+}
 input{
     font-size: 18px;
     border-style: groove;
