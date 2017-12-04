@@ -2,10 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <title>Access denied</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
     </head>
     <body>
-        <h1>Access denied</h1>
-
-        <p>Oops. You don't have permissions to get in here.</p>
+    		<div class="side-bar">
+    			Enjoy Secure Sessions!
+    		</div>
+    		<div class="main-content">
+	        <h1>Access denied</h1>
+	        <p>Oops. You don't have permissions to get in here.</p>
+	        
+	        <form th:action="@{/dashboard}" method="get">
+	            <div><input type="submit" value="Back"/></div>
+	        </form>
+	        
+        </div>
     </body>
 </html>
